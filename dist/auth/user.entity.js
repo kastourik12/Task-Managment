@@ -9,20 +9,34 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.FilterDto = void 0;
-const class_validator_1 = require("class-validator");
-const task_status_enum_1 = require("../task-status.enum");
-class FilterDto {
-}
+exports.User = void 0;
+const typeorm_1 = require("typeorm");
+const bcrypt = require("bcrypt");
+let User = class User extends typeorm_1.BaseEntity {
+    async validatePassword(password) {
+        const hash = await bcrypt.hash(password, this.salt);
+        return hash === this.password;
+    }
+};
 __decorate([
-    (0, class_validator_1.IsOptional)(),
-    (0, class_validator_1.IsNotEmpty)(),
-    __metadata("design:type", String)
-], FilterDto.prototype, "status", void 0);
+    (0, typeorm_1.PrimaryGeneratedColumn)(),
+    __metadata("design:type", Number)
+], User.prototype, "id", void 0);
 __decorate([
-    (0, class_validator_1.IsOptional)(),
-    (0, class_validator_1.IsNotEmpty)(),
+    (0, typeorm_1.Column)(),
     __metadata("design:type", String)
-], FilterDto.prototype, "search", void 0);
-exports.FilterDto = FilterDto;
-//# sourceMappingURL=get-filter.dto.js.map
+], User.prototype, "username", void 0);
+__decorate([
+    (0, typeorm_1.Column)(),
+    __metadata("design:type", String)
+], User.prototype, "password", void 0);
+__decorate([
+    (0, typeorm_1.Column)(),
+    __metadata("design:type", String)
+], User.prototype, "salt", void 0);
+User = __decorate([
+    (0, typeorm_1.Entity)(),
+    (0, typeorm_1.Unique)(['username'])
+], User);
+exports.User = User;
+//# sourceMappingURL=user.entity.js.map

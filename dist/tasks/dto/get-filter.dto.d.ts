@@ -1,5 +1,5 @@
-import { TaksStatus } from "../tasks.model";
+import { TaskStatus } from "../task-status.enum";
 export declare class FilterDto {
-    status: TaksStatus;
+    status: TaskStatus;
     search: string;
 }

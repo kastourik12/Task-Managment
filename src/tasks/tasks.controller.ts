@@ -1,5 +1,5 @@
 import { Body, Controller, Delete, Get, Param, ParseIntPipe, Patch, Post, Put, Query, UsePipes, ValidationPipe } from '@nestjs/common';
-import { FilterDto} from './pipes/get-filter.dto';
+import { FilterDto} from './dto/get-filter.dto';
 import { TaskDTO } from './dto/task.dto';
 import { TasksService } from './tasks.service';
 import { Task } from './task.entity';
@@ -10,7 +10,7 @@ import {TaskStatusValidationPipe} from './pipes/task-status-validation.pipe'
 export class TasksController {
     constructor(private readonly taskssevice : TasksService) {}
     @Get()
-    getAllTasks(filter : FilterDto): Promise<Task[]>{
+    getAllTasks(@Query() filter : FilterDto): Promise<Task[]>{
         const tasks = this.taskssevice.getAllTasks(filter);
         return tasks;
     }
@@ -28,11 +28,15 @@ export class TasksController {
        return this.taskssevice.deleteTask(id);
     }
 
-    @Patch('/update/:id')
-    updateTask (
+    @Patch('/status/:id')
+    updateTaskStatus (
         @Param('id',ParseIntPipe ) id:number,
         @Body('status',TaskStatusValidationPipe) status:TaskStatus
         ): Promise<Task>{
        return this.taskssevice.updateTask(id,status);
+    }
+    @Patch(':id/title')
+    updateTaskTitles(@Param('id',ParseIntPipe) id:number,title:string): Promise<Task>{
+        return this.taskssevice.updateTaskTitle(id,title);
     }
 }

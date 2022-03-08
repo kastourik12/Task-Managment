@@ -20,6 +20,11 @@ let TasksService = class TasksService {
     constructor(taskRepository) {
         this.taskRepository = taskRepository;
     }
+    async updateTaskTitle(id, title) {
+        const updated = await this.getTaskById(id);
+        updated.title = title;
+        return updated;
+    }
     async getTaskById(id) {
         const found = await this.taskRepository.findOne(id);
         if (!found) {

@@ -1,6 +1,6 @@
 import { EntityRepository, Repository } from "typeorm"
 import { TaskDTO } from "./dto/task.dto"
-import { FilterDto } from "./pipes/get-filter.dto";
+import { FilterDto } from "./dto/get-filter.dto";
 import { TaskStatus } from "./task-status.enum";
 import { Task } from "./task.entity"
 
@@ -16,7 +16,7 @@ export class TaskRepository extends Repository<Task>{
       return saved;
     }
     async getAllTasks(filter: FilterDto): Promise<Task[]> {
-        const {status,search} = filter;
+        const {status , search} = filter;
         const query = this.createQueryBuilder('task');
         if(status){
             query.andWhere('task.status = :status',{status});

@@ -14,7 +14,7 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.TasksController = void 0;
 const common_1 = require("@nestjs/common");
-const get_filter_dto_1 = require("./pipes/get-filter.dto");
+const get_filter_dto_1 = require("./dto/get-filter.dto");
 const task_dto_1 = require("./dto/task.dto");
 const tasks_service_1 = require("./tasks.service");
 const task_status_enum_1 = require("./task-status.enum");
@@ -36,12 +36,16 @@ let TasksController = class TasksController {
     deleteTask(id) {
         return this.taskssevice.deleteTask(id);
     }
-    updateTask(id, status) {
+    updateTaskStatus(id, status) {
         return this.taskssevice.updateTask(id, status);
+    }
+    updateTaskTitles(id, title) {
+        return this.taskssevice.updateTaskTitle(id, title);
     }
 };
 __decorate([
     (0, common_1.Get)(),
+    __param(0, (0, common_1.Query)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [get_filter_dto_1.FilterDto]),
     __metadata("design:returntype", Promise)
@@ -69,13 +73,20 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], TasksController.prototype, "deleteTask", null);
 __decorate([
-    (0, common_1.Patch)('/update/:id'),
+    (0, common_1.Patch)('/status/:id'),
     __param(0, (0, common_1.Param)('id', common_1.ParseIntPipe)),
     __param(1, (0, common_1.Body)('status', task_status_validation_pipe_1.TaskStatusValidationPipe)),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Number, String]),
     __metadata("design:returntype", Promise)
-], TasksController.prototype, "updateTask", null);
+], TasksController.prototype, "updateTaskStatus", null);
+__decorate([
+    (0, common_1.Patch)(':id/title'),
+    __param(0, (0, common_1.Param)('id', common_1.ParseIntPipe)),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Number, String]),
+    __metadata("design:returntype", Promise)
+], TasksController.prototype, "updateTaskTitles", null);
 TasksController = __decorate([
     (0, common_1.Controller)('tasks'),
     __metadata("design:paramtypes", [tasks_service_1.TasksService])

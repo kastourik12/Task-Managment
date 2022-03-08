@@ -9,20 +9,21 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.FilterDto = void 0;
+exports.AuthCredantialsDTO = void 0;
 const class_validator_1 = require("class-validator");
-const task_status_enum_1 = require("../task-status.enum");
-class FilterDto {
+class AuthCredantialsDTO {
 }
 __decorate([
-    (0, class_validator_1.IsOptional)(),
-    (0, class_validator_1.IsNotEmpty)(),
+    (0, class_validator_1.IsString)(),
+    (0, class_validator_1.MinLength)(4),
+    (0, class_validator_1.MaxLength)(20),
     __metadata("design:type", String)
-], FilterDto.prototype, "status", void 0);
+], AuthCredantialsDTO.prototype, "username", void 0);
 __decorate([
-    (0, class_validator_1.IsOptional)(),
-    (0, class_validator_1.IsNotEmpty)(),
+    (0, class_validator_1.IsString)(),
+    (0, class_validator_1.MinLength)(8),
+    (0, class_validator_1.Matches)(/((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$/, { message: "paasword too weak" }),
     __metadata("design:type", String)
-], FilterDto.prototype, "search", void 0);
-exports.FilterDto = FilterDto;
-//# sourceMappingURL=get-filter.dto.js.map
+], AuthCredantialsDTO.prototype, "password", void 0);
+exports.AuthCredantialsDTO = AuthCredantialsDTO;
+//# sourceMappingURL=auth-credantials.dto.js.map

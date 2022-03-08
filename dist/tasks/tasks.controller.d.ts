@@ -1,4 +1,4 @@
-import { FilterDto } from './pipes/get-filter.dto';
+import { FilterDto } from './dto/get-filter.dto';
 import { TaskDTO } from './dto/task.dto';
 import { TasksService } from './tasks.service';
 import { Task } from './task.entity';
@@ -10,5 +10,6 @@ export declare class TasksController {
     createTask(taskDTO: TaskDTO): Promise<Task>;
     getTaskById(id: number): Promise<Task>;
     deleteTask(id: number): Promise<void>;
-    updateTask(id: number, status: TaskStatus): Promise<Task>;
+    updateTaskStatus(id: number, status: TaskStatus): Promise<Task>;
+    updateTaskTitles(id: number, title: string): Promise<Task>;
 }
