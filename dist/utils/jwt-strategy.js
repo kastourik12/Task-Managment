@@ -12,37 +12,35 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
     return function (target, key) { decorator(target, key, paramIndex); }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.AuthService = void 0;
+exports.JwtStrategy = void 0;
 const common_1 = require("@nestjs/common");
-const jwt_1 = require("@nestjs/jwt");
+const passport_1 = require("@nestjs/passport");
 const typeorm_1 = require("@nestjs/typeorm");
-const user_repository_1 = require("./user.repository");
-let AuthService = class AuthService {
-    constructor(userRepository, jwtService) {
+const passport_jwt_1 = require("passport-jwt");
+const user_repository_1 = require("../auth/user.repository");
+const console_1 = require("console");
+let JwtStrategy = class JwtStrategy extends (0, passport_1.PassportStrategy)(passport_jwt_1.Strategy) {
+    constructor(userRepository) {
+        super({
+            jwtFromRequest: passport_jwt_1.ExtractJwt.fromAuthHeaderAsBearerToken(),
+            secretOrKey: 'topSecret',
+        });
         this.userRepository = userRepository;
-        this.jwtService = jwtService;
     }
-    getAllUsers() {
-        return this.userRepository.find();
-    }
-    async signUp(auth) {
-        return await this.userRepository.signUp(auth);
-    }
-    async singIn(auth) {
-        const username = await this.userRepository.validateUserPassword(auth);
-        if (!username) {
-            throw new common_1.UnauthorizedException('Invalid credentials');
+    async validate(payload) {
+        const { username } = payload;
+        const user = await this.userRepository.findOne({ username });
+        if (!user) {
+            throw new common_1.UnauthorizedException();
         }
-        const payload = { username };
-        const accessToken = await this.jwtService.sign(payload);
-        return { accessToken };
+        (0, console_1.log)(user);
+        return user;
     }
 };
-AuthService = __decorate([
+JwtStrategy = __decorate([
     (0, common_1.Injectable)(),
     __param(0, (0, typeorm_1.InjectRepository)(user_repository_1.UserRepository)),
-    __metadata("design:paramtypes", [user_repository_1.UserRepository,
-        jwt_1.JwtService])
-], AuthService);
-exports.AuthService = AuthService;
-//# sourceMappingURL=auth.service.js.map
+    __metadata("design:paramtypes", [user_repository_1.UserRepository])
+], JwtStrategy);
+exports.JwtStrategy = JwtStrategy;
+//# sourceMappingURL=jwt-strategy.js.map

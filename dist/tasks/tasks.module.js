@@ -8,7 +8,9 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.TasksModule = void 0;
 const common_1 = require("@nestjs/common");
+const passport_1 = require("@nestjs/passport");
 const typeorm_1 = require("@nestjs/typeorm");
+const auth_module_1 = require("../auth/auth.module");
 const task_repository_1 = require("./task.repository");
 const tasks_controller_1 = require("./tasks.controller");
 const tasks_service_1 = require("./tasks.service");
@@ -18,6 +20,8 @@ TasksModule = __decorate([
     (0, common_1.Module)({
         imports: [
             typeorm_1.TypeOrmModule.forFeature([task_repository_1.TaskRepository]),
+            auth_module_1.AuthModule,
+            passport_1.PassportModule
         ],
         controllers: [tasks_controller_1.TasksController],
         providers: [tasks_service_1.TasksService],

@@ -33,11 +33,11 @@ let TasksService = class TasksService {
         else
             return found;
     }
-    async getAllTasks(filter) {
-        return this.taskRepository.getAllTasks(filter);
+    async getAllTasks(filter, user) {
+        return this.taskRepository.getAllTasks(filter, user);
     }
-    async createTask(taskDTO) {
-        return this.taskRepository.createTask(taskDTO);
+    async createTask(taskDTO, user) {
+        return this.taskRepository.createTask(taskDTO, user);
     }
     async deleteTask(id) {
         const deleted = await this.taskRepository.delete(id);

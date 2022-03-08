@@ -11,16 +11,17 @@ const typeorm_1 = require("typeorm");
 const task_status_enum_1 = require("./task-status.enum");
 const task_entity_1 = require("./task.entity");
 let TaskRepository = class TaskRepository extends typeorm_1.Repository {
-    async createTask(taskDTO) {
+    async createTask(taskDTO, user) {
         const { title, description } = taskDTO;
-        const saved = new task_entity_1.Task();
-        saved.title = title;
-        saved.description = description;
-        saved.status = task_status_enum_1.TaskStatus.OPEN;
-        await saved.save();
-        return saved;
+        const task = new task_entity_1.Task();
+        task.title = title;
+        task.description = description;
+        task.status = task_status_enum_1.TaskStatus.OPEN;
+        task.user = user;
+        await task.save();
+        return task;
     }
-    async getAllTasks(filter) {
+    async getAllTasks(filter, user) {
         const { status, search } = filter;
         const query = this.createQueryBuilder('task');
         if (status) {

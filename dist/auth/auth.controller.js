@@ -23,6 +23,12 @@ let AuthController = class AuthController {
     SignUp(auth) {
         return this.authService.signUp(auth);
     }
+    SignIn(auth) {
+        return this.authService.singIn(auth);
+    }
+    getAllUsers() {
+        return this.authService.getAllUsers();
+    }
 };
 __decorate([
     (0, common_1.Post)('signup'),
@@ -32,6 +38,19 @@ __decorate([
     __metadata("design:paramtypes", [auth_credantials_dto_1.AuthCredantialsDTO]),
     __metadata("design:returntype", Promise)
 ], AuthController.prototype, "SignUp", null);
+__decorate([
+    (0, common_1.Post)('signin'),
+    __param(0, (0, common_1.Body)(common_1.ValidationPipe)),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [auth_credantials_dto_1.AuthCredantialsDTO]),
+    __metadata("design:returntype", Promise)
+], AuthController.prototype, "SignIn", null);
+__decorate([
+    (0, common_1.Get)('/all'),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", Promise)
+], AuthController.prototype, "getAllUsers", null);
 AuthController = __decorate([
     (0, common_1.Controller)('auth'),
     __metadata("design:paramtypes", [auth_service_1.AuthService])
