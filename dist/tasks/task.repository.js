@@ -19,11 +19,13 @@ let TaskRepository = class TaskRepository extends typeorm_1.Repository {
         task.status = task_status_enum_1.TaskStatus.OPEN;
         task.user = user;
         await task.save();
+        delete task.user;
         return task;
     }
     async getAllTasks(filter, user) {
         const { status, search } = filter;
         const query = this.createQueryBuilder('task');
+        query.where('task.userId =:userId ', { userId: user.id });
         if (status) {
             query.andWhere('task.status = :status', { status });
         }

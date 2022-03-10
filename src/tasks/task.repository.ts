@@ -15,6 +15,7 @@ export class TaskRepository extends Repository<Task>{
        task.status= TaskStatus.OPEN;
        task.user = user; 
        await task.save();
+       delete task.user;
       return task;
     }
     
@@ -24,7 +25,7 @@ export class TaskRepository extends Repository<Task>{
         ): Promise<Task[]> {
         const {status , search} = filter;
         const query = this.createQueryBuilder('task');
-    // query.where('task.userId =:userId ',{userId : user.id})
+         query.where('task.userId =:userId ',{userId : user.id})
         if(status){
             query.andWhere('task.status = :status',{status});
         }
