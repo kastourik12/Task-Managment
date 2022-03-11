@@ -20,13 +20,13 @@ let TasksService = class TasksService {
     constructor(taskRepository) {
         this.taskRepository = taskRepository;
     }
-    async updateTaskTitle(id, title) {
-        const updated = await this.getTaskById(id);
+    async updateTaskTitle(id, title, user) {
+        const updated = await this.getTaskById(id, user);
         updated.title = title;
         return updated;
     }
-    async getTaskById(id) {
-        const found = await this.taskRepository.findOne(id);
+    async getTaskById(id, user) {
+        const found = await this.taskRepository.findOneUser(id, user);
         if (!found) {
             throw new common_1.NotFoundException(`task with ID: "${id}" is not found`);
         }
@@ -39,14 +39,17 @@ let TasksService = class TasksService {
     async createTask(taskDTO, user) {
         return this.taskRepository.createTask(taskDTO, user);
     }
-    async deleteTask(id) {
-        const deleted = await this.taskRepository.delete(id);
-        if (deleted.affected == 0) {
-            throw new common_1.NotFoundException(`Task with ID "${id}" not found`);
+    async deleteTask(id, user) {
+        try {
+            await this.taskRepository.deleteTask(id, user);
+        }
+        catch (error) {
+            console.log(error.message);
+            throw new common_1.NotFoundException(`task with ID:"${id}" is not found`);
         }
     }
-    async updateTask(id, status) {
-        const updated = await this.getTaskById(id);
+    async updateTask(id, status, user) {
+        const updated = await this.getTaskById(id, user);
         updated.status = status;
         return updated;
     }

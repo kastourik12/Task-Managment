@@ -18,7 +18,6 @@ const passport_1 = require("@nestjs/passport");
 const typeorm_1 = require("@nestjs/typeorm");
 const passport_jwt_1 = require("passport-jwt");
 const user_repository_1 = require("../auth/user.repository");
-const console_1 = require("console");
 let JwtStrategy = class JwtStrategy extends (0, passport_1.PassportStrategy)(passport_jwt_1.Strategy) {
     constructor(userRepository) {
         super({
@@ -33,7 +32,6 @@ let JwtStrategy = class JwtStrategy extends (0, passport_1.PassportStrategy)(pas
         if (!user) {
             throw new common_1.UnauthorizedException();
         }
-        (0, console_1.log)(user);
         return user;
     }
 };

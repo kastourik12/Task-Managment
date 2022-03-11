@@ -6,11 +6,11 @@ import { TaskRepository } from './task.repository';
 import { User } from 'src/auth/user.entity';
 export declare class TasksService {
     private taskRepository;
-    updateTaskTitle(id: number, title: string): Promise<Task>;
+    updateTaskTitle(id: number, title: string, user: User): Promise<Task>;
     constructor(taskRepository: TaskRepository);
-    getTaskById(id: number): Promise<Task>;
+    getTaskById(id: number, user: User): Promise<Task>;
     getAllTasks(filter: FilterDto, user: User): Promise<Task[]>;
     createTask(taskDTO: TaskDTO, user: User): Promise<Task>;
-    deleteTask(id: number): Promise<void>;
-    updateTask(id: number, status: TaskStatus): Promise<Task>;
+    deleteTask(id: number, user: User): Promise<void>;
+    updateTask(id: number, status: TaskStatus, user: User): Promise<Task>;
 }

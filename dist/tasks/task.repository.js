@@ -11,6 +11,23 @@ const typeorm_1 = require("typeorm");
 const task_status_enum_1 = require("./task-status.enum");
 const task_entity_1 = require("./task.entity");
 let TaskRepository = class TaskRepository extends typeorm_1.Repository {
+    async deleteTask(id, user) {
+        console.log("userId:", user.id);
+        await (0, typeorm_1.getConnection)()
+            .createQueryBuilder()
+            .softDelete()
+            .from(task_entity_1.Task)
+            .where("task.id = :id", { id })
+            .andWhere("userId = :userId", { userId: user.id })
+            .execute();
+    }
+    async findOneUser(id, user) {
+        const query = this.createQueryBuilder('task');
+        query.where('task.id =:id ', { id });
+        query.andWhere('task.userId =:userId', { userId: user.id });
+        const task = query.getOne();
+        return task;
+    }
     async createTask(taskDTO, user) {
         const { title, description } = taskDTO;
         const task = new task_entity_1.Task();

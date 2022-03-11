@@ -11,8 +11,8 @@ import { User } from 'src/auth/user.entity';
 @Injectable()
 export class TasksService {
     // }
-   async updateTaskTitle(id: number, title: string): Promise<Task> {
-        const updated = await this.getTaskById(id);
+   async updateTaskTitle(id: number, title: string, user: User): Promise<Task> {
+        const updated = await this.getTaskById(id,user);
         updated.title = title;
         return updated;
     }
@@ -21,8 +21,11 @@ export class TasksService {
         @InjectRepository(TaskRepository)
         private taskRepository: TaskRepository){}
         
-   async getTaskById(id:number): Promise<Task>{
-        const found = await this.taskRepository.findOne(id);
+   async getTaskById( 
+       id:number, 
+       user:User
+       ): Promise<Task>{
+        const found = await this.taskRepository.findOneUser(id,user);
         if(!found){
             throw new NotFoundException(`task with ID: "${id}" is not found`);
         }
@@ -38,14 +41,16 @@ export class TasksService {
    async createTask( taskDTO : TaskDTO,user : User): Promise<Task>{
        return this.taskRepository.createTask(taskDTO,user);
     }
-   async deleteTask(id: number) : Promise<void>{
-        const deleted = await this.taskRepository.delete(id);
-        if(deleted.affected==0){
-               throw new NotFoundException(`Task with ID "${id}" not found`) ;
+   async deleteTask(id: number,user : User) : Promise<void>{
+        try { await this.taskRepository.deleteTask(id,user);
+        }
+        catch(error){
+            console.log(error.message);
+            throw new NotFoundException(`task with ID:"${id}" is not found`);
         }
         }   
-    async updateTask(id:number , status:TaskStatus): Promise<Task>{
-               const updated= await this.getTaskById(id);
+    async updateTask(id:number , status:TaskStatus, user:User): Promise<Task>{
+               const updated= await this.getTaskById(id,user);
                updated.status = status;
                return updated;     
             }    

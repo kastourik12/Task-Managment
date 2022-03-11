@@ -9,9 +9,8 @@ export declare class TasksController {
     constructor(taskssevice: TasksService);
     getAllTasks(filter: FilterDto, user: User): Promise<Task[]>;
     createTask(taskDTO: TaskDTO, user: User): Promise<Task>;
-    getTaskById(id: number): Promise<Task>;
-    deleteTask(id: number): Promise<void>;
-    updateTaskStatus(id: number, status: TaskStatus): Promise<Task>;
-    updateTaskTitles(id: number, title: string): Promise<Task>;
-    test(req: any): void;
+    getTaskById(id: number, user: User): Promise<Task>;
+    deleteTask(id: number, user: User): Promise<void>;
+    updateTaskStatus(id: number, status: TaskStatus, user: User): Promise<Task>;
+    updateTaskTitles(id: number, title: string, user: User): Promise<Task>;
 }

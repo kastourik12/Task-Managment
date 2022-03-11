@@ -31,27 +31,36 @@ export class TasksController {
        return this.taskssevice.createTask(taskDTO,user);
     }
     @Get('/:id')
-    getTaskById(@Param('id',ParseIntPipe) id:number): Promise<Task>{
-            return this.taskssevice.getTaskById(id);
+    getTaskById(
+        @Param('id',ParseIntPipe) id:number,
+        @GetUser() user:User
+        ): Promise<Task>{
+            return this.taskssevice.getTaskById(id,user);
     } 
     @Delete(':id')
-    deleteTask(@Param('id',ParseIntPipe) id:number): Promise<void>{
-       return this.taskssevice.deleteTask(id);
+    deleteTask(
+        @Param('id',ParseIntPipe) id:number, 
+        @GetUser() user:User
+        ): Promise<void>{
+       return this.taskssevice.deleteTask(id,user);
     }
 
     @Patch('/status/:id')
     updateTaskStatus (
         @Param('id',ParseIntPipe ) id:number,
-        @Body('status',TaskStatusValidationPipe) status:TaskStatus
+        @Body('status',TaskStatusValidationPipe) status:TaskStatus,
+        @GetUser() user:User
         ): Promise<Task>{
-       return this.taskssevice.updateTask(id,status);
+       return this.taskssevice.updateTask(id,status,user);
     }
     @Patch(':id/title')
-    updateTaskTitles(@Param('id',ParseIntPipe) id:number,title:string): Promise<Task>{
-        return this.taskssevice.updateTaskTitle(id,title);
+    updateTaskTitles(
+        @Param('id',ParseIntPipe) id:number,
+        title:string, 
+
+ @GetUser() user:User
+        ): Promise<Task>{
+        return this.taskssevice.updateTaskTitle(id,title,user);
     }
-    @Get('test')
-    test(@Req() req ){
-        console.log(req);
-    }
+
 }

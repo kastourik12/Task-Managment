@@ -33,20 +33,17 @@ let TasksController = class TasksController {
     createTask(taskDTO, user) {
         return this.taskssevice.createTask(taskDTO, user);
     }
-    getTaskById(id) {
-        return this.taskssevice.getTaskById(id);
+    getTaskById(id, user) {
+        return this.taskssevice.getTaskById(id, user);
     }
-    deleteTask(id) {
-        return this.taskssevice.deleteTask(id);
+    deleteTask(id, user) {
+        return this.taskssevice.deleteTask(id, user);
     }
-    updateTaskStatus(id, status) {
-        return this.taskssevice.updateTask(id, status);
+    updateTaskStatus(id, status, user) {
+        return this.taskssevice.updateTask(id, status, user);
     }
-    updateTaskTitles(id, title) {
-        return this.taskssevice.updateTaskTitle(id, title);
-    }
-    test(req) {
-        console.log(req);
+    updateTaskTitles(id, title, user) {
+        return this.taskssevice.updateTaskTitle(id, title, user);
     }
 };
 __decorate([
@@ -71,39 +68,36 @@ __decorate([
 __decorate([
     (0, common_1.Get)('/:id'),
     __param(0, (0, common_1.Param)('id', common_1.ParseIntPipe)),
+    __param(1, (0, get_user_decorator_1.GetUser)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Number]),
+    __metadata("design:paramtypes", [Number, user_entity_1.User]),
     __metadata("design:returntype", Promise)
 ], TasksController.prototype, "getTaskById", null);
 __decorate([
     (0, common_1.Delete)(':id'),
     __param(0, (0, common_1.Param)('id', common_1.ParseIntPipe)),
+    __param(1, (0, get_user_decorator_1.GetUser)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Number]),
+    __metadata("design:paramtypes", [Number, user_entity_1.User]),
     __metadata("design:returntype", Promise)
 ], TasksController.prototype, "deleteTask", null);
 __decorate([
     (0, common_1.Patch)('/status/:id'),
     __param(0, (0, common_1.Param)('id', common_1.ParseIntPipe)),
     __param(1, (0, common_1.Body)('status', task_status_validation_pipe_1.TaskStatusValidationPipe)),
+    __param(2, (0, get_user_decorator_1.GetUser)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Number, String]),
+    __metadata("design:paramtypes", [Number, String, user_entity_1.User]),
     __metadata("design:returntype", Promise)
 ], TasksController.prototype, "updateTaskStatus", null);
 __decorate([
     (0, common_1.Patch)(':id/title'),
     __param(0, (0, common_1.Param)('id', common_1.ParseIntPipe)),
+    __param(2, (0, get_user_decorator_1.GetUser)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Number, String]),
+    __metadata("design:paramtypes", [Number, String, user_entity_1.User]),
     __metadata("design:returntype", Promise)
 ], TasksController.prototype, "updateTaskTitles", null);
-__decorate([
-    (0, common_1.Get)('test'),
-    __param(0, (0, common_1.Req)()),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object]),
-    __metadata("design:returntype", void 0)
-], TasksController.prototype, "test", null);
 TasksController = __decorate([
     (0, common_1.Controller)('tasks'),
     (0, common_1.UseGuards)((0, passport_1.AuthGuard)()),
